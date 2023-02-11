@@ -10,9 +10,9 @@ class ApiApplication: Application() {
 
         super.onCreate()
 
-        val config = RealmConfiguration.Builder(schema = setOf(FavoriteShop::class))
-            .build()
-        val realm = Realm.open(config)
+        //val config = RealmConfiguration.Builder(schema = setOf(FavoriteShop::class)).deleteRealmIfMigrationNeeded()
+        //    .build()
+        //val realm = Realm.open(config)
 
     }
 

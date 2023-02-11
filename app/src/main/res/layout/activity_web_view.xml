@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".WebViewActivity">
 
+
+
+    <ImageView
+        android:id="@+id/webFavoriteImageView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_star"
+        app:layout_constraintBottom_toTopOf="@id/webView"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/holo_orange_light" />
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="0dp"
@@ -13,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/webFavoriteImageView"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

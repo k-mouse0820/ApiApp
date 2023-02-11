@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -137,6 +138,8 @@ class ApiFragment: Fragment() {
                                         updateRecyclerView(list, isAdd)
                                 }
                                 isLoading = false // 読み込み中フラグを折る
+
+                                Log.v("DEBUG", list[0].name + ":" + list[0].address)
                         }
                 })
         }

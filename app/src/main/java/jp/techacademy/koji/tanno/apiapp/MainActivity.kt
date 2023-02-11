@@ -32,14 +32,15 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         }.attach()
     }
 
-    override fun onClickItem(url: String) {
-        WebViewActivity.start(this, url)
+    override fun onClickItem(url: String, id: String) {
+        WebViewActivity.start(this, url, id)
     }
 
     override fun onAddFavorite(shop: Shop) { // Favoriteに追加するときのメソッド（Fragment -> Activity へ通知する）
         FavoriteShop.insert(FavoriteShop().apply {
             id = shop.id
             name = shop.name
+            address = shop.address
             imageUrl = shop.logoImage
             url = if (shop.couponUrls.sp.isNotEmpty()) shop.couponUrls.sp else shop.couponUrls.pc
         })

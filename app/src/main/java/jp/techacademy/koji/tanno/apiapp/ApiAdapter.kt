@@ -1,6 +1,7 @@
 package jp.techacademy.koji.tanno.apiapp
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,17 +65,12 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
         val rootView : ConstraintLayout = view.findViewById(R.id.rootView)
         // レイアウトファイルからidがnameTextViewのTextViewオブジェクトを取得し、代入
         val nameTextView: TextView = view.findViewById(R.id.nameTextView)
+        // レイアウトファイルからidがaddressTextViewのTextViewオブジェクトを取得し、代入
+        val addressTextView: TextView = view.findViewById(R.id.addressTextView)
         // レイアウトファイルからidがimageViewのImageViewオブジェクトを取得し、代入
         val imageView: ImageView = view.findViewById(R.id.imageView)
         // レイアウトファイルからidがfavoriteImageViewのImageViewオブジェクトを取得し、代入
         val favoriteImageView: ImageView = view.findViewById(R.id.favoriteImageView)
-
-        /* ビューバインディング版はどうやったらできる？？
-        private lateinit var binding: RecyclerFavoriteBinding
-        init {
-            binding = RecyclerFavoriteBinding.inflate(layoutInflator)
-        }
-        */
 
     }
 
@@ -104,6 +100,8 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
             }
             // nameTextViewのtextプロパティに代入されたオブジェクトのnameプロパティを代入
             nameTextView.text = data.name
+            addressTextView.text = data.address
+            Log.v("DEBUG",data.name + " : " + data.address)
             // Picassoライブラリを使い、imageViewにdata.LogoImageのurlの画像を読み込ませる
             Picasso.get().load(data.logoImage).into(imageView)
             // 白抜きの星マークの画像を指定
