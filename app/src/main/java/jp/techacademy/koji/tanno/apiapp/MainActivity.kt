@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         }.attach()
     }
 
-    override fun onClickItem(url: String, id: String) {
-        WebViewActivity.start(this, url, id)
+    override fun onClickItem(url: String, id: String, name: String, address: String, imageUrl: String) {
+        WebViewActivity.start(this, url, id, name, address, imageUrl)
     }
 
     override fun onAddFavorite(shop: Shop) { // Favoriteに追加するときのメソッド（Fragment -> Activity へ通知する）
@@ -65,6 +65,11 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
 
     private fun deleteFavorite(id: String) {
         FavoriteShop.delete(id)  // FavoriteShopのcompanionメソッドを呼び出す（companionなのでFavoriteShopのインスタンス不要）
+        (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_API] as ApiFragment).updateView()
+        (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
+    }
+
+    fun updateFragments() {
         (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_API] as ApiFragment).updateView()
         (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
     }

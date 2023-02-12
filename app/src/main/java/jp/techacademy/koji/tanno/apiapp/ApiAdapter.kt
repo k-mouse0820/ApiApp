@@ -26,7 +26,7 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
     var onClickDeleteFavorite: ((Shop) -> Unit)? = null    // 引数Shop型、戻りUnit型のNullable関数を定義。初期値をnullにしておく。
 
     // Itemを押したときのメソッド
-    var onClickItem: ((String) -> Unit)? = null
+    var onClickItem: ((String, String, String, String,String) -> Unit)? = null
 
 
     fun refresh(list: List<Shop>) {
@@ -95,7 +95,7 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
                     ContextCompat.getColor(context,
                         if (position % 2 == 0) android.R.color.white else android.R.color.darker_gray))
                 setOnClickListener {
-                    onClickItem?.invoke(if (data.couponUrls.sp.isNotEmpty()) data.couponUrls.sp else data.couponUrls.pc)
+                    onClickItem?.invoke(if (data.couponUrls.sp.isNotEmpty()) data.couponUrls.sp else data.couponUrls.pc, data.id, data.name, data.address, data.logoImage)
                 }
             }
             // nameTextViewのtextプロパティに代入されたオブジェクトのnameプロパティを代入

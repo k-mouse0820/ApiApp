@@ -21,7 +21,7 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
     var onClickDeleteFavorite: ((FavoriteShop) -> Unit)? = null   // 引数FavoriteShop型、戻りUnit型のNullable関数を定義。初期値をnullにしておく。
 
     // Itemを押したときのメソッド
-    var onClickItem: ((String) -> Unit)? = null
+    var onClickItem: ((String,String,String,String,String) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -64,12 +64,11 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
             rootView.apply {
                 setBackgroundColor(ContextCompat.getColor(context, if (position % 2 == 0) android.R.color.white else android.R.color.darker_gray)) // 偶数番目と奇数番目で背景色を変更させる
                 setOnClickListener {
-                    onClickItem?.invoke(data.url)
+                    onClickItem?.invoke(data.url, data.id, data.name, data.address, data.imageUrl)
                 }
 
             }
             nameTextView.text = data.name
-            addressTextView.text = data.address
             Picasso.get().load(data.imageUrl).into(imageView)
             favoriteImageView.setOnClickListener {
                 onClickDeleteFavorite?.invoke(data)
@@ -83,7 +82,6 @@ class FavoriteAdapter(private val context: Context): RecyclerView.Adapter<Recycl
     class FavoriteItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val rootView: ConstraintLayout = view.findViewById(R.id.rootView)
         val nameTextView: TextView = view.findViewById(R.id.nameTextView)
-        val addressTextView: TextView = view.findViewById(R.id.addressTextView)
         val imageView: ImageView = view.findViewById(R.id.imageView)
         val favoriteImageView: ImageView = view.findViewById(R.id.favoriteImageView)
     }

@@ -52,8 +52,8 @@ class ApiFragment: Fragment() {
                                 fragmentCallback?.onDeleteFavorite(it.id)   // MainActivityのonDeleteFavoriteメソッドを、ApiAdapterのonClickDeleteFavoriteに登録
                         }
                         // Itemをクリックしたとき
-                        onClickItem = {
-                                fragmentCallback?.onClickItem(it)
+                        onClickItem = {url, id, name, address, imageUrl ->
+                                fragmentCallback?.onClickItem(url, id, name, address, imageUrl)
                         }
                 }
 
