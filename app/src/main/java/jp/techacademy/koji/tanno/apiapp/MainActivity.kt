@@ -2,6 +2,7 @@ package jp.techacademy.koji.tanno.apiapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -69,10 +70,26 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
     }
 
-    fun updateFragments() {
+    override fun onResume() {
+        super.onResume()
+//        (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_API] as ApiFragment).updateView()
+//        (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
+        Log.v("DEBUG","onResume")
+    }
+    override fun onRestart() {
+        super.onRestart()
+        Log.v("DEBUG", "onRestart-START")
         (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_API] as ApiFragment).updateView()
         (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
+        Log.v("DEBUG", "onRestart-END")
     }
+
+
+
+//    fun updateFragments() {
+//        (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_API] as ApiFragment).updateView()
+//        (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
+//    }
 
     companion object {
         private const val VIEW_PAGER_POSITION_API = 0

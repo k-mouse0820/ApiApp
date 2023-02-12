@@ -6,21 +6,23 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import jp.techacademy.koji.tanno.apiapp.FavoriteShop.Companion.findBy
 import kotlinx.android.synthetic.main.activity_web_view.*
 import java.io.Serializable
 
 class WebViewActivity : AppCompatActivity() {
 
-    inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
-        else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
-    }
-
+    var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
+
+        // ActionBarの追加
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "クーポン詳細"
 
         //Web読み込み
         webView.loadUrl(intent.getStringExtra(KEY_URL).toString())
@@ -32,15 +34,14 @@ class WebViewActivity : AppCompatActivity() {
         val imageUrl = intent.getStringExtra(KEY_IMAGEURL).toString()
 
         // お気に入り状態を取得
-        val isFavorite = FavoriteShop.findBy(id) != null
+        isFavorite = FavoriteShop.findBy(id) != null
 
         // お気に入りマークを表示し、リスナーセット
         webFavoriteImageView.apply {
             setImageResource(if (isFavorite) R.drawable.ic_star else R.drawable.ic_star_border) // Picassoというライブラリを使ってImageViewに画像をはめ込む
-            setOnClickListener{
+            setOnClickListener {
                 if (isFavorite) {
-                    MainActivity().onDeleteFavorite(id)
-                    setImageResource(R.drawable.ic_star_border)
+                    showConfirmDeleteFavoriteDialog(id)
                 } else {
                     FavoriteShop.insert(FavoriteShop().apply {
                         this.id = id
@@ -50,15 +51,36 @@ class WebViewActivity : AppCompatActivity() {
                         this.url = url
                     })
                     setImageResource(R.drawable.ic_star)
+                    isFavorite=true
                     //MainActivity().updateFragments()
                 }
+
             }
         }
     }
 
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> finish()
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
+    }
 
-
+    private fun showConfirmDeleteFavoriteDialog(id: String) {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.delete_favorite_dialog_title)
+            .setMessage(R.string.delete_favorite_dialog_message)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                FavoriteShop.delete(id)
+                webFavoriteImageView.setImageResource(R.drawable.ic_star_border)
+                isFavorite=false
+            }  // ???
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
+            .create()
+            .show()
+    }
 
     companion object {
         private const val KEY_URL = "key_url"
