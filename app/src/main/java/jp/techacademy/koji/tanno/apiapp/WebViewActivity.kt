@@ -24,14 +24,15 @@ class WebViewActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "クーポン詳細"
 
-        //Web読み込み
-        webView.loadUrl(intent.getStringExtra(KEY_URL).toString())
-
         // Shop情報を受取
+        val url = intent.getStringExtra(KEY_URL).toString()
         val id = intent.getStringExtra(KEY_ID).toString()
         val name = intent.getStringExtra(KEY_NAME).toString()
         val address = intent.getStringExtra(KEY_ADDRESS).toString()
         val imageUrl = intent.getStringExtra(KEY_IMAGEURL).toString()
+
+        //Web読み込み
+        webView.loadUrl(url)
 
         // お気に入り状態を取得
         isFavorite = FavoriteShop.findBy(id) != null
